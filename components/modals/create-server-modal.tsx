@@ -12,6 +12,7 @@ import FileUpload from '@/components/file-upload'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useModal } from '@/hooks/use-modal.store'
+import LoaderItem from '@/components/loading/loader-item'
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -94,8 +95,8 @@ const CreateServerModal = () => {
               />
             </div>
             <DialogFooter className={'bg-gray-100 px-6 py-4'}>
-              <Button variant={'primary'} disabled={isLoading}>
-                Create
+              <Button variant={'primary'} className={'w-[140px]'}>
+                {isLoading ? <LoaderItem /> : 'Create'}
               </Button>
             </DialogFooter>
           </form>
