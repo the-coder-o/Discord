@@ -18,6 +18,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { object } from 'zod'
+import { useEffect } from 'react'
 
 const formSchema = z.object({
   name: z
@@ -32,20 +33,29 @@ const formSchema = z.object({
 })
 
 const CreateChannelModal = () => {
-  const { isOpen, onClose, type } = useModal()
+  const { isOpen, onClose, type, data } = useModal()
 
   const params = useParams()
   const router = useRouter()
 
   const isModalOpen = isOpen && type === 'createChannel'
+  const { channelType } = data
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     },
   })
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue('type', channelType)
+    } else {
+      form.setValue('type', ChannelType.TEXT)
+    }
+  }, [channelType, form])
 
   const isLoading = form.formState.isSubmitting
 
