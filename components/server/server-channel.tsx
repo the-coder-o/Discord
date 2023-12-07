@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { useParams, useRouter } from 'next/navigation'
 import ActionTooltip from '@/components/action-tooltip'
 import { Channel, ChannelType, MemberRole, Server } from '@prisma/client'
+import { useModal } from '@/hooks/use-modal.store'
 
 interface ServerChannelProps {
   channel: Channel
@@ -21,6 +22,7 @@ const iconMap = {
 }
 
 const ServerChannel = ({ server, channel, role }: ServerChannelProps) => {
+  const { onOpen } = useModal()
   const params = useParams()
   const route = useRouter()
 
@@ -46,10 +48,16 @@ const ServerChannel = ({ server, channel, role }: ServerChannelProps) => {
       {channel?.name !== 'general' && role !== MemberRole.GUEST && (
         <div className={'ml-auto flex items-center gap-x-2'}>
           <ActionTooltip label={'Edit'}>
-            <Edit className={'hidden group-hover:block h-4 w-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition'} />
+            <Edit
+              onClick={() => onOpen('editChannel', { server, channel })}
+              className={'hidden group-hover:block h-4 w-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition'}
+            />
           </ActionTooltip>
           <ActionTooltip label={'Delete'}>
-            <Trash className={'hidden group-hover:block h-4 w-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition'} />
+            <Trash
+              onClick={() => onOpen('deleteChannel', { server, channel })}
+              className={'hidden group-hover:block h-4 w-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition'}
+            />
           </ActionTooltip>
         </div>
       )}
