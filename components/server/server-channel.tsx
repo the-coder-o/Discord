@@ -5,7 +5,7 @@ import { Edit, Hash, Lock, Mic, Trash, Video } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 import { useParams, useRouter } from 'next/navigation'
-import ActionTooltip from '@/components/action-tooltip'
+import { ActionTooltip } from '@/components/action-tooltip'
 import { Channel, ChannelType, MemberRole, Server } from '@prisma/client'
 import { ModalType, useModal } from '@/hooks/use-modal.store'
 import React from 'react'
