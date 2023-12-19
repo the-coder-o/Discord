@@ -5,7 +5,9 @@ import { currentProfilePages } from '@/lib/current-profile-pages'
 import { db } from '@/lib/db'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponseServerIo) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
 
   try {
     const profile = await currentProfilePages(req)
@@ -51,7 +53,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
 
     const member = server.members.find((member) => member.profileId === profile.id)
 
-    if (!member) return res.status(404).json({ message: 'Member not found' })
+    if (!member) {
+      return res.status(404).json({ message: 'Member not found' })
+    }
 
     const message = await db.message.create({
       data: {
